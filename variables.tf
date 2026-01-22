@@ -1,9 +1,21 @@
-variable "project_name" { type = string  default = "pci-poc" }
-variable "aws_region"   { type = string  default = "eu-central-1" }
+variable "project_name" {
+  type    = string
+  default = "pci-poc"
+}
+variable "aws_region" {
+  type    = string
+  default = "eu-central-1"
+}
 
-variable "vpc_cidr" { type = string  default = "10.20.0.0/16" }
+variable "vpc_cidr" {
+  type    = string
+  default = "10.20.0.0/16"
+}
 # Two AZs for POC
-variable "az_count" { type = number default = 2 }
+variable "az_count" {
+  type    = number
+  default = 2
+}
 
 variable "allowed_alb_ingress_cidrs" {
   description = "List of CIDR blocks allowed to access the ALB on 443"
@@ -23,13 +35,29 @@ variable "public_key_path" {
   default     = null
 }
 
-variable "instance_type_app" { type = string default = "t3.micro" }
-variable "instance_type_db"  { type = string default = "t3.micro" }
+variable "instance_type_app" {
+  type    = string
+  default = "t3.micro"
+}
+variable "instance_type_db" {
+  type    = string
+  default = "t3.micro"
+}
 
-variable "create_rds" { type = bool default = false }
+variable "create_rds" {
+  type    = bool
+  default = false
+}
 
-variable "db_username" { type = string default = "appuser" }
-variable "db_password" { type = string default = "ChangeMe123!" sensitive = true }
+variable "db_username" {
+  type    = string
+  default = "appuser"
+}
+variable "db_password" {
+  type      = string
+  default   = "ChangeMe123!"
+  sensitive = true
+}
 
 variable "acm_certificate_arn" {
   description = "ACM certificate ARN for the ALB HTTPS listener"

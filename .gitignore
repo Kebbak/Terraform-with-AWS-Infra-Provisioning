@@ -1,0 +1,6 @@
+# add terraform.tfvars to ignore
+terraform.tfvars
+*.tfstate
+*.tfstate.backup
+.terraform/
+.terraform.lock.hcl

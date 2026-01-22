@@ -1,6 +1,6 @@
-variable "vpc_id" { 
-type = string ,
-description = "The ID of the VPC"
+variable "vpc_id" {
+    type = string
+    description = "The ID of the VPC"
 }
 variable "allowed_alb_ingress_cidrs" { 
     type = list(string) 

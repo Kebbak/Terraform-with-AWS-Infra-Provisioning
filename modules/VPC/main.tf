@@ -18,30 +18,26 @@ resource "aws_internet_gateway" "igw" {
 
 # Public subnets
 resource "aws_subnet" "public" {
-  for_each = { for idx, az in local.azs : idx => az }
   vpc_id                  = aws_vpc.this.id
-  availability_zone       = each.value
-  cidr_block              = cidrsubnet(var.vpc_cidr, 4, tonumber(each.key))
+  cidr_block              = "10.20.1.0/24"
   map_public_ip_on_launch = true
-  tags = { Name = "${var.project_name}-public-${each.value}" }
+  availability_zone       = "us-east-1a"
+  tags = { Name = "${var.project_name}-public" }
 }
 
-# Private subnets for App
+
 resource "aws_subnet" "private_app" {
-  for_each = { for idx, az in local.azs : idx => az }
   vpc_id            = aws_vpc.this.id
-  availability_zone = each.value
-  cidr_block        = cidrsubnet(var.vpc_cidr, 4, tonumber(each.key) + 4)
-  tags = { Name = "${var.project_name}-private-app-${each.value}" }
+  cidr_block        = "10.20.2.0/24"
+  availability_zone = "us-east-1a"
+  tags = { Name = "${var.project_name}-private-app" }
 }
 
-# Private subnets for DB
 resource "aws_subnet" "private_db" {
-  for_each = { for idx, az in local.azs : idx => az }
   vpc_id            = aws_vpc.this.id
-  availability_zone = each.value
-  cidr_block        = cidrsubnet(var.vpc_cidr, 4, tonumber(each.key) + 8)
-  tags = { Name = "${var.project_name}-private-db-${each.value}" }
+  cidr_block        = "10.20.3.0/24"
+  availability_zone = "us-east-1a"
+  tags = { Name = "${var.project_name}-private-db" }
 }
 
 # EIP + NAT in first public subnet
@@ -52,7 +48,7 @@ resource "aws_eip" "nat" {
 
 resource "aws_nat_gateway" "nat" {
   allocation_id = aws_eip.nat.id
-  subnet_id     = values(aws_subnet.public)[0].id
+  subnet_id     = aws_subnet.public.id
   tags = { Name = "${var.project_name}-nat" }
   depends_on = [aws_internet_gateway.igw]
 }
@@ -68,8 +64,7 @@ resource "aws_route_table" "public" {
 }
 
 resource "aws_route_table_association" "public_assoc" {
-  for_each       = aws_subnet.public
-  subnet_id      = each.value.id
+  subnet_id      = aws_subnet.public.id
   route_table_id = aws_route_table.public.id
 }
 
@@ -83,8 +78,7 @@ resource "aws_route_table" "private_app" {
 }
 
 resource "aws_route_table_association" "private_app_assoc" {
-  for_each       = aws_subnet.private_app
-  subnet_id      = each.value.id
+  subnet_id      = aws_subnet.private_app.id
   route_table_id = aws_route_table.private_app.id
 }
 
@@ -95,7 +89,6 @@ resource "aws_route_table" "private_db" {
 }
 
 resource "aws_route_table_association" "private_db_assoc" {
-  for_each       = aws_subnet.private_db
-  subnet_id      = each.value.id
+  subnet_id      = aws_subnet.private_db.id
   route_table_id = aws_route_table.private_db.id
 }

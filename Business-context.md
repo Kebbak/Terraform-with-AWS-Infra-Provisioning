@@ -30,7 +30,7 @@ EC2 App instance
 EC2 MySQL instance
 ALB (HTTPS, with ACM cert)
 Security Groups
-route tables
+route tables & nat-gateway
 
 
 ## Security controls to satisfy PCI 1.3.1 & 1.3.2

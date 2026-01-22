@@ -2,7 +2,7 @@
 resource "aws_key_pair" "this" {
   count      = var.public_key_path == null ? 0 : 1
   key_name   = "${var.project_name}-key"
-  public_key = var.public_key_path == null ? "" : file(var.public_key_path)
+  public_key = file(var.public_key_path)
 }
 
 data "aws_ami" "amazon_linux" {
