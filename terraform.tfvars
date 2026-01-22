@@ -1,0 +1,9 @@
+project_name                 = "pci-poc"
+aws_region                   = "eu-central-1"
+vpc_cidr                     = "10.20.0.0/16"
+allowed_alb_ingress_cidrs    = ["198.51.100.10/32", "203.0.113.0/24"]
+egress_allowed_cidrs         = ["93.184.216.34/32", "192.0.2.44/32"]  # example.com & secureweb.com resolved IPs
+instance_type_app            = "t3.micro"
+instance_type_db             = "t3.micro"
+acm_certificate_arn          = "arn:aws:acm:eu-central-1:123456789012:certificate/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+create_rds                   = false
