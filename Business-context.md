@@ -30,8 +30,7 @@ EC2 App instance
 EC2 MySQL instance
 ALB (HTTPS, with ACM cert)
 Security Groups
-Route tables / IGW / NAT Gateway
-Replace ASG with single EC2 (allowed by task)
+route tables
 
 
 ## Security controls to satisfy PCI 1.3.1 & 1.3.2

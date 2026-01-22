@@ -44,5 +44,5 @@ module "alb" {
   subnet_ids             = module.vpc.public_subnet_ids
   security_group_id      = module.security_groups.sg_alb_id
   target_instance_id     = module.ec2.instance_id
-  acm_certificate_arn    = var.acm_certificate_arn
+  acm_certificate_arn    = module.acm.acm_certificate_arn
 }
