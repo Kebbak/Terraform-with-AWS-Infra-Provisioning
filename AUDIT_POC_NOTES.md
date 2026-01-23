@@ -1,5 +1,4 @@
 # Audit/POC Discussion Notes: PCI-POC AWS Infrastructure (Terraform)
-
 ## Overview
 This Proof of Concept (POC) demonstrates automated, secure, and auditable AWS infrastructure deployment using Terraform. The solution replaces manual resource creation with Infrastructure as Code (IaC) for repeatability, compliance, and rapid recovery.
 

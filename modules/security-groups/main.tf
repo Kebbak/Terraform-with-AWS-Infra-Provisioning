@@ -37,7 +37,7 @@ resource "aws_security_group" "app" {
 
   # Outbound restricted to HTTPS to allowed CIDRs (e.g., secureweb.com)
   egress {
-    description = "HTTPS to allowed external endpoints (secureweb.com)"
+    description = "HTTPS to secureweb.com only"
     from_port   = 443
     to_port     = 443
     protocol    = "tcp"
@@ -69,10 +69,10 @@ resource "aws_security_group" "db" {
   }
 
   egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-    description = "Default egress (can be restricted further if needed)"
+    description = "MySQL responses to App EC2 only"
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    security_groups = [aws_security_group.app.id]
   }
 }
