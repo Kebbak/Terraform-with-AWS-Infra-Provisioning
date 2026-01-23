@@ -1,9 +1,4 @@
 # Optional key pair
-resource "aws_key_pair" "this" {
-  count      = var.public_key_path == null ? 0 : 1
-  key_name   = "${var.project_name}-key"
-  public_key = file(var.public_key_path)
-}
 
 data "aws_ami" "amazon_linux" {
   most_recent = true
@@ -47,7 +42,7 @@ resource "aws_instance" "app" {
   vpc_security_group_ids      = [var.security_group_id]
   iam_instance_profile        = aws_iam_instance_profile.this.name
   associate_public_ip_address = false
-  key_name                    = var.public_key_path == null ? null : aws_key_pair.this[0].key_name
+  key_name                    = var.key_name
   user_data                   = local.user_data
   tags = { Name = "${var.project_name}-app" }
 }

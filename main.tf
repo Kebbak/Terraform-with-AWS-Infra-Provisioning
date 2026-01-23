@@ -6,26 +6,26 @@ module "vpc" {
 }
 
 module "security_groups" {
-  source                        = "./modules/security-groups"
-  vpc_id                        = module.vpc.vpc_id
-  allowed_alb_ingress_cidrs     = var.allowed_alb_ingress_cidrs
-  egress_allowed_cidrs          = var.egress_allowed_cidrs
+  source                    = "./modules/security-groups"
+  vpc_id                    = module.vpc.vpc_id
+  allowed_alb_ingress_cidrs = var.allowed_alb_ingress_cidrs
+  egress_allowed_cidrs      = var.egress_allowed_cidrs
 }
 
 module "ec2" {
-  source                  = "./modules/ec2"
-  project_name            = var.project_name
-  subnet_id               = module.vpc.private_app_subnet_id
-  security_group_id       = module.security_groups.sg_app_id
-  instance_type           = var.instance_type_app
-  public_key_path         = var.public_key_path
-  vpc_id                  = module.vpc.vpc_id
+  source            = "./modules/ec2"
+  project_name      = var.project_name
+  subnet_id         = module.vpc.private_subnet_ids[0]
+  security_group_id = module.security_groups.sg_app_id
+  instance_type     = var.instance_type_app
+  key_name          = var.key_name
+  vpc_id            = module.vpc.vpc_id
 }
 
 module "db" {
   source            = "./modules/db"
   project_name      = var.project_name
-  subnet_id         = module.vpc.private_db_subnet_id
+  subnet_id         = module.vpc.private_subnet_ids[1]
   security_group_id = module.security_groups.sg_db_id
   instance_type     = var.instance_type_db
 }
@@ -38,11 +38,11 @@ module "db" {
 # }
 
 module "alb" {
-  source                 = "./modules/alb"
-  project_name           = var.project_name
-  vpc_id                 = module.vpc.vpc_id
-  subnet_ids             = [module.vpc.public_subnet_id]
-  security_group_id      = module.security_groups.sg_alb_id
-  target_instance_id     = module.ec2.instance_id
-  acm_certificate_arn    = var.acm_certificate_arn
+  source              = "./modules/alb"
+  project_name        = var.project_name
+  vpc_id              = module.vpc.vpc_id
+  subnet_ids          = module.vpc.public_subnet_ids
+  security_group_id   = module.security_groups.sg_alb_id
+  target_instance_id  = module.ec2.instance_id
+  acm_certificate_arn = var.acm_certificate_arn
 }
