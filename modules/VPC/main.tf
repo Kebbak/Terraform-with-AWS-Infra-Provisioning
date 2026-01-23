@@ -4,7 +4,7 @@ locals {
 
 data "aws_availability_zones" "available" {}
 
-resource "aws_vpc" "this" {
+resource "aws_vpc" "PCI_VPC" {
   cidr_block           = var.vpc_cidr
   enable_dns_support   = true
   enable_dns_hostnames = true
@@ -12,13 +12,13 @@ resource "aws_vpc" "this" {
 }
 
 resource "aws_internet_gateway" "igw" {
-  vpc_id = aws_vpc.this.id
+  vpc_id = aws_vpc.PCI_VPC.id
   tags = { Name = "${var.project_name}-igw" }
 }
 
 # Public subnets
 resource "aws_subnet" "public" {
-  vpc_id                  = aws_vpc.this.id
+  vpc_id                  = aws_vpc.PCI_VPC.id
   cidr_block              = "10.20.1.0/24"
   map_public_ip_on_launch = true
   availability_zone       = "us-east-1a"
@@ -27,14 +27,14 @@ resource "aws_subnet" "public" {
 
 
 resource "aws_subnet" "private_app" {
-  vpc_id            = aws_vpc.this.id
+  vpc_id            = aws_vpc.PCI_VPC.id
   cidr_block        = "10.20.2.0/24"
   availability_zone = "us-east-1a"
   tags = { Name = "${var.project_name}-private-app" }
 }
 
 resource "aws_subnet" "private_db" {
-  vpc_id            = aws_vpc.this.id
+  vpc_id            = aws_vpc.PCI_VPC.id
   cidr_block        = "10.20.3.0/24"
   availability_zone = "us-east-1a"
   tags = { Name = "${var.project_name}-private-db" }
@@ -55,7 +55,7 @@ resource "aws_nat_gateway" "nat" {
 
 # Route tables
 resource "aws_route_table" "public" {
-  vpc_id = aws_vpc.this.id
+  vpc_id = aws_vpc.PCI_VPC.id
   route {
     cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.igw.id
@@ -69,7 +69,7 @@ resource "aws_route_table_association" "public_assoc" {
 }
 
 resource "aws_route_table" "private_app" {
-  vpc_id = aws_vpc.this.id
+  vpc_id = aws_vpc.PCI_VPC.id
   route {
     cidr_block     = "0.0.0.0/0"
     nat_gateway_id = aws_nat_gateway.nat.id
@@ -83,7 +83,7 @@ resource "aws_route_table_association" "private_app_assoc" {
 }
 
 resource "aws_route_table" "private_db" {
-  vpc_id = aws_vpc.this.id
+  vpc_id = aws_vpc.PCI_VPC.id
   # No default route to Internet; DB stays internal only
   tags = { Name = "${var.project_name}-private-db-rt" }
 }

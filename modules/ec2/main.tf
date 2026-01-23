@@ -37,20 +37,7 @@ resource "aws_iam_instance_profile" "this" {
 }
 
 locals {
-  user_data = <<-EOF
-              #!/bin/bash
-              set -euxo pipefail
-              # Example app provisioning. Replace example.com with internal repo for production.
-              yum update -y
-              # Simulate fetching a package from example.com (placeholder)
-              curl -fsSL https://example.com/install.sh || true
-              amazon-linux-extras enable nginx1
-              yum clean metadata
-              yum install -y nginx
-              echo "OK" > /usr/share/nginx/html/index.html
-              systemctl enable nginx
-              systemctl start nginx
-              EOF
+  user_data = templatefile("${path.module}/user-data.sh", {})
 }
 
 resource "aws_instance" "app" {
