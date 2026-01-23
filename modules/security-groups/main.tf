@@ -19,7 +19,7 @@ resource "aws_security_group" "alb" {
     description = "ALB health checks to targets"
   }
 }
-
+# Allow App SG to receive traffic from ALB SG on port 80
 resource "aws_security_group" "app" {
   name        = "app-sg"
   description = "App EC2 SG"
@@ -72,6 +72,6 @@ resource "aws_security_group" "db" {
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
-    description = "Default egress (can be tightened if needed)"
+    description = "Default egress (can be restricted further if needed)"
   }
 }

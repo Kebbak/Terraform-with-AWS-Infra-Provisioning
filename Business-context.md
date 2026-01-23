@@ -25,7 +25,7 @@ Audit in 5 days
 ## Terraform POC of the entire infrastructure
 
 VPC
-Private & public subnets
+Private & public subnets ( 2 Private subnets and 1 public subnet)
 EC2 App instance
 EC2 MySQL instance
 ALB (HTTPS, with ACM cert)
