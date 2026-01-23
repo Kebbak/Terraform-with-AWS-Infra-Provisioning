@@ -14,7 +14,7 @@ resource "aws_subnet" "public1" {
   availability_zone       = data.aws_availability_zones.available.names[0]
   tags = { Name = "${var.project_name}-public-1" }
 }
-
+# for high availability, i create a second public subnet in another
 resource "aws_subnet" "public2" {
   vpc_id                  = aws_vpc.this.id
   cidr_block              = "10.0.64.0/20"

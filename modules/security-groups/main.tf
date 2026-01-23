@@ -12,14 +12,7 @@ resource "aws_security_group" "alb" {
   }
 
 
-  # Restrict ALB egress to only HTTP/HTTPS (if needed)
-  egress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = var.egress_allowed_cidrs # allow from this specific list
-    description = "HTTP to allowed CIDRs (if needed)"
-  }
+  # Restrict ALB egress to only HTTPS (443) to allowed CIDRs
   egress {
     from_port   = 443
     to_port     = 443
@@ -28,13 +21,12 @@ resource "aws_security_group" "alb" {
     description = "HTTPS to allowed CIDRs (if needed)"
   }
 }
-# Allow App SG to receive traffic from ALB SG on port 80
+# Allow App SG to receive incoming traffic from ALB SG on port 80 
 resource "aws_security_group" "app" {
   name        = "app-sg"
   description = "App EC2 SG"
   vpc_id      = var.vpc_id
 
-  # Inbound only from ALB on HTTP 80 (target group)
   ingress {
     description      = "HTTP from ALB"
     from_port        = 80
@@ -52,7 +44,7 @@ resource "aws_security_group" "app" {
     cidr_blocks = var.egress_allowed_cidrs # allow from this specific list
   }
 
-  # Allow SSM Session Manager connectivity (outbound)
+  # Allow SSM Session Manager connectivity (outbound) ( Note for testing purposes only)
   egress {
     description = "SSM Session Manager"
     from_port   = 443

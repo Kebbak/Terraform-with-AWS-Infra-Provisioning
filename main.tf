@@ -15,7 +15,7 @@ module "security_groups" {
 module "ec2" {
   source            = "./modules/ec2"
   project_name      = var.project_name
-  subnet_id         = module.vpc.private_subnet_ids[0]
+  subnet_id         = module.vpc.private1_subnet_id
   security_group_id = module.security_groups.sg_app_id
   instance_type     = var.instance_type_app
   key_name          = var.key_name
@@ -25,7 +25,7 @@ module "ec2" {
 module "db" {
   source            = "./modules/db"
   project_name      = var.project_name
-  subnet_id         = module.vpc.private_subnet_ids[1]
+  subnet_id         = module.vpc.private2_subnet_id
   security_group_id = module.security_groups.sg_db_id
   instance_type     = var.instance_type_db
 }
@@ -46,3 +46,11 @@ module "alb" {
   target_instance_id  = module.ec2.instance_id
   acm_certificate_arn = var.acm_certificate_arn
 }
+
+## for testing purposes only
+# To use S3 for Terraform state storage make sure  to create the s3 bucket before applying this configuration
+# module "s3" {
+#   source      = "./modules/s3"
+#   bucket_name = "${var.project_name}-tfstate-bucket"
+#   environment = var.project_name
+# }

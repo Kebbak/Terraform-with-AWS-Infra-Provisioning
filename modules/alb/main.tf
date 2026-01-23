@@ -35,6 +35,7 @@ resource "aws_lb_listener" "https" {
   }
 }
 
+# to enforce secure connections for all users by redirecting HTTP to HTTPS
 resource "aws_lb_listener" "http_redirect" {
   load_balancer_arn = aws_lb.lb.arn
   port              = 80
