@@ -18,14 +18,16 @@ before_script:
   - terraform --version
   - terraform init
   - terraform validate
+  - cd /mnt/c/Users/kkanyi/DevOps-Project/devops-task
 
 
 plan:
   stage: plan
   image: $TF_IMAGE
   script:
-    - terraform workspace select $TF_WORKSPACE || terraform workspace new $TF_WORKSPACE
-    - terraform plan -input=false -out=tfplan
+  - cd /mnt/c/Users/kkanyi/DevOps-Project/devops-task
+  - terraform workspace select $TF_WORKSPACE || terraform workspace new $TF_WORKSPACE
+  - terraform plan -input=false -out=tfplan
   artifacts:
     paths:
       - $TF_ROOT/tfplan
@@ -37,8 +39,9 @@ apply:
   image: $TF_IMAGE
   when: manual
   script:
-    - terraform workspace select $TF_WORKSPACE || terraform workspace new $TF_WORKSPACE
-    - terraform apply --auto-approve -input=false tfplan
+  - cd /mnt/c/Users/kkanyi/DevOps-Project/devops-task
+  - terraform workspace select $TF_WORKSPACE || terraform workspace new $TF_WORKSPACE
+  - terraform apply --auto-approve -input=false tfplan
   dependencies:
     - plan
   only:
@@ -51,8 +54,9 @@ destroy:
   image: $TF_IMAGE
   when: manual
   script:
-    - terraform workspace select $TF_WORKSPACE || terraform workspace new $TF_WORKSPACE
-    - terraform destroy --auto-approve
+  - cd /mnt/c/Users/kkanyi/DevOps-Project/devops-task
+  - terraform workspace select $TF_WORKSPACE || terraform workspace new $TF_WORKSPACE
+  - terraform destroy --auto-approve
   dependencies:
     - plan
   only:
