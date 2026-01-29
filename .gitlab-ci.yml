@@ -1,6 +1,5 @@
 # create pipeline for terraform code
 stages:
-  - validate
   - plan
   - apply
   - destroy
@@ -18,14 +17,8 @@ variables:
 before_script:
   - terraform --version
   - terraform init
+  - terraform validate
 
-validate:
-  stage: validate
-  image: $TF_IMAGE
-  script:
-    - terraform validate
-  tags:
-    - shell
 
 plan:
   stage: plan
