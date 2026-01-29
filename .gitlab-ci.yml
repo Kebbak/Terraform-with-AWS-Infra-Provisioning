@@ -2,20 +2,20 @@
 stages:
   - validate
   - plan
-  - apply
+  - appl
+  - destroy
 
 cache:
   paths:
     - .terraform/
 
 variables:
-  TF_ROOT: "./devops-task"
+  TF_ROOT: "."
   TF_VERSION: "1.7.6"
   TF_IMAGE: "hashicorp/terraform:${TF_VERSION}"
   TF_WORKSPACE: "default"
 
 before_script:
-  - cd $TF_ROOT
   - terraform --version
   - terraform init -input=false -backend-config="workspace_key_prefix=$TF_WORKSPACE"
 
@@ -23,7 +23,6 @@ validate:
   stage: validate
   image: $TF_IMAGE
   script:
-    - cd $TF_ROOT
     - terraform validate
   tags:
     - shell
@@ -32,7 +31,6 @@ plan:
   stage: plan
   image: $TF_IMAGE
   script:
-    - cd $TF_ROOT
     - terraform workspace select $TF_WORKSPACE || terraform workspace new $TF_WORKSPACE
     - terraform plan -input=false -out=tfplan
   artifacts:
@@ -46,7 +44,6 @@ apply:
   image: $TF_IMAGE
   when: manual
   script:
-    - cd $TF_ROOT
     - terraform workspace select $TF_WORKSPACE || terraform workspace new $TF_WORKSPACE
     - terraform apply --auto-approve -input=false tfplan
   dependencies:
@@ -61,7 +58,6 @@ destroy:
   image: $TF_IMAGE
   when: manual
   script:
-    - cd $TF_ROOT
     - terraform workspace select $TF_WORKSPACE || terraform workspace new $TF_WORKSPACE
     - terraform destroy --auto-approve
   dependencies:
