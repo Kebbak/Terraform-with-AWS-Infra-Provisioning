@@ -54,7 +54,7 @@ apply:
     - shell
 
 destroy:
-  stage: apply
+  stage: destroy
   image: $TF_IMAGE
   when: manual
   script:
