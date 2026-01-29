@@ -53,7 +53,6 @@ apply:
     - plan
   only:
     - main
-  manual: true
   tags:
     - shell
 
@@ -69,7 +68,6 @@ destroy:
     - plan
   only:
     - main
-  manual: true
   tags:
     - shell
   
