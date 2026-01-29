@@ -11,3 +11,8 @@ create_rds                = false
 key_name                  = "Development"
 db_username               = "app"
 db_password               = "ChangeMe123!"
+# kafka_topic_name               = "pci-poc-topic"
+# kafka_topic_partitions         = 3
+# kafka_topic_replication_factor = 2
+# kafka_producer_user            = "pci-poc-producer"
+

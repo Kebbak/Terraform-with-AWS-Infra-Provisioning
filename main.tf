@@ -47,6 +47,14 @@ module "alb" {
   acm_certificate_arn = var.acm_certificate_arn
 }
 
+# module "pub_sub" {
+#   source                         = "./modules/Pub-Sub"
+#   kafka_topic_name               = var.kafka_topic_name
+#   kafka_topic_partitions         = var.kafka_topic_partitions
+#   kafka_topic_replication_factor = var.kafka_topic_replication_factor
+#   kafka_producer_user            = var.kafka_producer_user
+# }
+
 ## for testing purposes only
 # To use S3 for Terraform state storage make sure  to create the s3 bucket before applying this configuration
 # module "s3" {
