@@ -1,64 +1,64 @@
-# create pipeline for terraform code
-stages:
-  - plan
-  - apply
-  - destroy
+# # create pipeline for terraform code
+# stages:
+#   - plan
+#   - apply
+#   - destroy
 
-cache:
-  paths:
-    - .terraform/
+# cache:
+#   paths:
+#     - .terraform/
 
-variables:
-  TF_ROOT: "."
-  TF_VERSION: "1.7.6"
-  TF_IMAGE: "hashicorp/terraform:${TF_VERSION}"
-  TF_WORKSPACE: "default"
+# variables:
+#   TF_ROOT: "."
+#   TF_VERSION: "1.7.6"
+#   TF_IMAGE: "hashicorp/terraform:${TF_VERSION}"
+#   TF_WORKSPACE: "default"
 
-before_script:
-  - terraform --version
-  - terraform init
-  - terraform validate
+# before_script:
+#   - terraform --version
+#   - terraform init
+#   - terraform validate
 
-plan:
-  stage: plan
-  image: $TF_IMAGE
-  script:
-  - cd $TF_ROOT
-  - terraform workspace select $TF_WORKSPACE || terraform workspace new $TF_WORKSPACE
-  - terraform plan -input=false -out=tfplan
-  artifacts:
-    paths:
-      - $TF_ROOT/tfplan
-  tags:
-    - shell
+# plan:
+#   stage: plan
+#   image: $TF_IMAGE
+#   script:
+#   - cd $TF_ROOT
+#   - terraform workspace select $TF_WORKSPACE || terraform workspace new $TF_WORKSPACE
+#   - terraform plan -input=false -out=tfplan
+#   artifacts:
+#     paths:
+#       - $TF_ROOT/tfplan
+#   tags:
+#     - shell
 
-apply:
-  stage: apply
-  image: $TF_IMAGE
-  when: manual
-  script:
-  - cd $TF_ROOT
-  - terraform workspace select $TF_WORKSPACE || terraform workspace new $TF_WORKSPACE
-  - terraform apply --auto-approve -input=false tfplan
-  dependencies:
-    - plan
-  only:
-    - main
-  tags:
-    - shell
+# apply:
+#   stage: apply
+#   image: $TF_IMAGE
+#   when: manual
+#   script:
+#   - cd $TF_ROOT
+#   - terraform workspace select $TF_WORKSPACE || terraform workspace new $TF_WORKSPACE
+#   - terraform apply --auto-approve -input=false tfplan
+#   dependencies:
+#     - plan
+#   only:
+#     - main
+#   tags:
+#     - shell
 
-destroy:
-  stage: destroy
-  image: $TF_IMAGE
-  when: manual
-  script:
-  - cd $TF_ROOT
-  - terraform workspace select $TF_WORKSPACE || terraform workspace new $TF_WORKSPACE
-  - terraform destroy --auto-approve
-  dependencies:
-    - plan
-  only:
-    - main
-  tags:
-    - shell
+# destroy:
+#   stage: destroy
+#   image: $TF_IMAGE
+#   when: manual
+#   script:
+#   - cd $TF_ROOT
+#   - terraform workspace select $TF_WORKSPACE || terraform workspace new $TF_WORKSPACE
+#   - terraform destroy --auto-approve
+#   dependencies:
+#     - plan
+#   only:
+#     - main
+#   tags:
+#     - shell
   
