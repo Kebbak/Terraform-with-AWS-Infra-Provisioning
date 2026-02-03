@@ -23,7 +23,7 @@ plan:
   stage: plan
   image: $TF_IMAGE
   script:
-  - cd /mnt/c/Users/kkanyi/DevOps-Project/devops-task
+  - cd $TF_ROOT
   - terraform workspace select $TF_WORKSPACE || terraform workspace new $TF_WORKSPACE
   - terraform plan -input=false -out=tfplan
   artifacts:
@@ -37,7 +37,7 @@ apply:
   image: $TF_IMAGE
   when: manual
   script:
-  - cd /mnt/c/Users/kkanyi/DevOps-Project/devops-task
+  - cd $TF_ROOT
   - terraform workspace select $TF_WORKSPACE || terraform workspace new $TF_WORKSPACE
   - terraform apply --auto-approve -input=false tfplan
   dependencies:
@@ -52,7 +52,7 @@ destroy:
   image: $TF_IMAGE
   when: manual
   script:
-  - cd /mnt/c/Users/kkanyi/DevOps-Project/devops-task
+  - cd $TF_ROOT
   - terraform workspace select $TF_WORKSPACE || terraform workspace new $TF_WORKSPACE
   - terraform destroy --auto-approve
   dependencies:
