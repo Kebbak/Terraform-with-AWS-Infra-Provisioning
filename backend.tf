@@ -1,7 +1,7 @@
-# terraform {
-#   backend "s3" {
-#     bucket = "pci-poc-tfstate-bucket"
-#     key    = "terraform.tfstate"
-#     region = "us-east-1"
-#   }
-# }
+terraform {
+  backend "s3" {
+    bucket = "netflix-clone-2025"
+    key    = "tf-state/terraform.tfstate"
+    region = "us-east-1"
+  }
+}

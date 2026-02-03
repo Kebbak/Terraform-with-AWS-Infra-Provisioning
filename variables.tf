@@ -47,29 +47,49 @@ variable "db_password" {
   sensitive = true
 }
 
-variable "acm_certificate_arn" {
-  description = "ACM certificate ARN for the ALB HTTPS listener"
+# variable "acm_certificate_arn" {
+#   description = "ACM certificate ARN for the ALB HTTPS listener"
+#   type        = string
+# }
+
+# variable "kafka_topic_name" {
+#   description = "The name of the Kafka topic"
+#   type        = string
+# }
+
+# variable "kafka_topic_partitions" {
+#   description = "The number of partitions for the Kafka topic"
+#   type        = number
+#   default     = 1
+# }
+
+# variable "kafka_topic_replication_factor" {
+#   description = "The replication factor for the Kafka topic"
+#   type        = number
+#   default     = 1
+# }
+
+# variable "kafka_producer_user" {
+#   description = "The Kafka user allowed to produce messages to the topic"
+#   type        = string
+# }
+
+variable "eks_cluster_name" {
+  description = "The name of the EKS cluster"
   type        = string
 }
 
-variable "kafka_topic_name" {
-  description = "The name of the Kafka topic"
-  type        = string
-}
-
-variable "kafka_topic_partitions" {
-  description = "The number of partitions for the Kafka topic"
+variable "node_group_desired_size" {
+  description = "Desired number of nodes in the EKS node group"
   type        = number
-  default     = 1
 }
 
-variable "kafka_topic_replication_factor" {
-  description = "The replication factor for the Kafka topic"
+variable "node_group_max_size" {
+  description = "Maximum number of nodes in the EKS node group"
   type        = number
-  default     = 1
 }
 
-variable "kafka_producer_user" {
-  description = "The Kafka user allowed to produce messages to the topic"
-  type        = string
+variable "node_group_min_size" {
+  description = "Minimum number of nodes in the EKS node group"
+  type        = number
 }

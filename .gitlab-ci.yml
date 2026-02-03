@@ -18,8 +18,6 @@ before_script:
   - terraform --version
   - terraform init
   - terraform validate
-  - cd /mnt/c/Users/kkanyi/DevOps-Project/devops-task
-
 
 plan:
   stage: plan
