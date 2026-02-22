@@ -23,3 +23,8 @@ variable "node_group_min_size" {
   type        = number
 }
 
+variable "vpc_id" {
+  description = "The ID of the VPC"
+  type        = string
+}
+

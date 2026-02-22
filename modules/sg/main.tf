@@ -1,6 +1,4 @@
 # create secuirty group
-
-
 resource "aws_security_group" "this_sg" {
   name        = "my-security-group"
   description = "Allow SSH and HTTP traffic"

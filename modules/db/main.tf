@@ -14,20 +14,21 @@ resource "aws_db_instance" "mysql_db" {
 resource "aws_security_group" "db_sg" {
   name        = "${var.project_name}-db-sg"
   description = "Security group for RDS instance"
-  vpc_id      = aws_vpc.custom_vpc.id
+  vpc_id      = var.vpc_id
 
   ingress {
     from_port   = 3306
     to_port     = 3306
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    security_groups = [var.ec2_security_group_id]
+    description = "Allow MySQL access from EC2 security group"
   }
 
-  ingress = {
+  ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["aws_security_group.this_sg.id"] # allow SSH from EC2 security group
+    security_groups = [var.ec2_security_group_id]
   }
 
   egress {

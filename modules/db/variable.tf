@@ -29,3 +29,13 @@ variable "password" {
 type = string   
 description = "The password for the database"
 }
+
+variable "vpc_id" {
+  description = "The ID of the VPC"
+  type = string
+}
+
+variable "ec2_security_group_id" {
+  description = "The security group ID of the EC2 instance for SSH access."
+  type = string
+}
