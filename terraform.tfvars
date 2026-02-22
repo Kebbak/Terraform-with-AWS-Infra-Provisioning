@@ -15,8 +15,3 @@ node_group_desired_size  = 2
 node_group_max_size      = 3
 node_group_min_size      = 1
 
-# kafka_topic_name               = "pci-poc-topic"
-# kafka_topic_partitions         = 3
-# kafka_topic_replication_factor = 2
-# kafka_producer_user            = "pci-poc-producer"
-
