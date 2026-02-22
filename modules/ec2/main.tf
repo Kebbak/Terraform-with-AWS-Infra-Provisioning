@@ -1,11 +1,10 @@
 # create ec2 instances
-
 resource "aws_instance" "my_instance" {
   ami                   = var.ec2_ami
   count                 = 1
   instance_type         = var.instance_type
-  subnet_id             = aws_subnet.public1.id
-  vpc_security_group_ids = [aws_security_group.this_sg.id]
+  subnet_id             = var.subnet_id
+  vpc_security_group_ids = [var.security_group_id]
   key_name               = var.key_name
   iam_instance_profile   = aws_iam_instance_profile.my_instance_profile.name
   tags = {
@@ -42,4 +41,9 @@ resource "aws_iam_role" "this_role" {
 resource "aws_iam_role_policy_attachment" "my_role_attachment" {
   role       = aws_iam_role.this_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2FullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "ssm_core_attachment" {
+  role       = aws_iam_role.this_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
 }

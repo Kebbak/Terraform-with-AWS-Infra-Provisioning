@@ -7,9 +7,11 @@ output "vpc_id" {
 output "app_instance_id" {
   value = module.ec2.instance_id
 }
-output "db_instance_id" {
-  value = module.db.instance_id
-}
+
+# Uncomment this only if module "db" is enabled in main.tf
+# output "db_instance_id" {
+#   value = module.db.instance_id
+# }
 
 # output "kafka_topic_name" {
 #   value = module.pub_sub.topic_name

@@ -1,9 +1,10 @@
 # create secuirty group
 
+
 resource "aws_security_group" "this_sg" {
   name        = "my-security-group"
   description = "Allow SSH and HTTP traffic"
-  vpc_id      = aws_vpc.custom_vpc.id
+  vpc_id      = var.vpc_id
 
   ingress {
     from_port   = 22

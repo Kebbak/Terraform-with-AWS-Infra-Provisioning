@@ -12,4 +12,5 @@ db_engine_version          = "8.0"
 instance_type_db           = "db.t2.micro"
 admin_username             = "app"
 password                   = "ChangeMe123!"
+instance_type              = "t2.micro"
 
