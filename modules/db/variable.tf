@@ -10,7 +10,22 @@ variable "security_group_id" {
 type = string
 description = "The ID of the security group"
 }
-variable "instance_type" { 
+variable "instance_type_db" {
+  type = string
+  description = "The type of the database instance"
+}
+
+variable "db_engine_version" {
 type = string
-description = "The type of the instance"
+description = "The version of the database engine"
+}
+
+variable "admin_username" {
+type = string
+description = "The admin username for the database"
+}
+
+variable "password" {
+type = string   
+description = "The password for the database"
 }

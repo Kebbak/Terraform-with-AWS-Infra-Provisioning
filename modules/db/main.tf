@@ -1,23 +1,40 @@
-data "aws_ami" "ubuntu" {
-  most_recent = true
-  owners      = ["099720109477"] # Canonical
-  filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+# create mysql db
+resource "aws_db_instance" "mysql_db" {
+  allocated_storage    = 20
+  engine               = "mysql"
+  engine_version       = var.db_engine_version
+  instance_class       = var.instance_type_db
+  username             = var.admin_username
+  password             = var.password
+  vpc_security_group_ids = [aws_security_group.db_sg.id]
+  skip_final_snapshot   = true
+}
+
+# create security group for db
+resource "aws_security_group" "db_sg" {
+  name        = "${var.project_name}-db-sg"
+  description = "Security group for RDS instance"
+  vpc_id      = aws_vpc.custom_vpc.id
+
+  ingress {
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  ingress = {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["aws_security_group.this_sg.id"] # allow SSH from EC2 security group
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }
 
-locals {
-  user_data = templatefile("${path.module}/user-data.sh", {})
-}
-
-resource "aws_instance" "db" {
-  ami                         = data.aws_ami.ubuntu.id
-  instance_type               = var.instance_type
-  subnet_id                   = var.subnet_id
-  vpc_security_group_ids      = [var.security_group_id]
-  associate_public_ip_address = false
-  user_data                   = local.user_data
-  tags = { Name = "${var.project_name}-db" }
-  root_block_device { volume_size = 20 }
-}
