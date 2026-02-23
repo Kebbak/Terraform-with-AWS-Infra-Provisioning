@@ -16,7 +16,7 @@ description = "The ID of the VPC"
 }
 
 variable "ec2_ami" {
-	type        = string
+	type = string
 	description = "The AMI ID to use for the EC2 instance."
 }
 variable "subnet_id" {

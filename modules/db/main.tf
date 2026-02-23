@@ -14,7 +14,7 @@ resource "aws_db_instance" "mysql_db" {
 resource "aws_security_group" "db_sg" {
   name        = "${var.project_name}-db-sg"
   description = "Security group for RDS instance"
-  vpc_id      = var.vpc_id
+  #vpc_id      = var.vpc_id
 
   ingress {
     from_port   = 3306
