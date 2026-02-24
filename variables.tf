@@ -1,10 +1,6 @@
 variable "project_name" {
   type = string
 }
-variable "aws_region" {
-  type = string
-}
-
 variable "vpc_cidr" {
   type = string
 }
@@ -16,8 +12,8 @@ variable "key_name" {
   type = string
 }
 
-variable "instance_type" { 
-type = string
+variable "instance_type" {
+  type = string
 }
 variable "instance_type_db" {
   type = string
@@ -45,16 +41,16 @@ variable "ec2_ami" {
 }
 
 variable "db_engine_version" {
-type = string
-description = "The version of the database engine"
+  type        = string
+  description = "The version of the database engine"
 }
 
 variable "admin_username" {
-type = string
-description = "The admin username for the database"
+  type        = string
+  description = "The admin username for the database"
 }
 
 variable "password" {
-type = string   
-description = "The password for the database"
+  type        = string
+  description = "The password for the database"
 }

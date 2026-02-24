@@ -1,5 +1,5 @@
 module "vpc" {
-  source = "./modules/vpc"
+  source       = "./modules/vpc"
   project_name = var.project_name
   vpc_cidr     = var.vpc_cidr
   az_count     = var.az_count
@@ -11,13 +11,13 @@ module "sg" {
 }
 
 module "ec2" {
-  source = "./modules/ec2"
-  ec2_ami = var.ec2_ami
-  instance_type = var.instance_type
-  key_name = var.key_name
+  source            = "./modules/ec2"
+  ec2_ami           = var.ec2_ami
+  instance_type     = var.instance_type
+  key_name          = var.key_name
   security_group_id = module.sg.sg_id
-  vpc_id = module.vpc.vpc_id
-  subnet_id = module.vpc.public1_subnet_id
+  vpc_id            = module.vpc.vpc_id
+  subnet_id         = module.vpc.public1_subnet_id
 }
 
 # module "db" {
