@@ -12,7 +12,3 @@ output "app_instance_id" {
 # output "db_instance_id" {
 #   value = module.db.instance_id
 # }
-
-# output "kafka_topic_name" {
-#   value = module.pub_sub.topic_name
-# }

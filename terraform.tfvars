@@ -1,5 +1,5 @@
-vpc_cidr = "10.0.0.0/16"
-az_count = 2
+vpc_cidr                = "10.0.0.0/16"
+az_count                = 2
 key_name                = "Devops-keypair"
 eks_cluster_name        = "devops-eks-cluster"
 node_group_desired_size = 2

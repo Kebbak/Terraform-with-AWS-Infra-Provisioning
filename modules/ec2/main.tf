@@ -14,7 +14,7 @@ resource "aws_instance" "my_instance" {
   user_data = templatefile("${path.module}/user_data.sh", {})
 }
 
-# create instance profile
+# create instance profile to allow EC2 to assume the IAM role
 resource "aws_iam_instance_profile" "my_instance_profile" {
   name = "ec2-instance-profile"
   role = aws_iam_role.this_role.name
@@ -43,6 +43,7 @@ resource "aws_iam_role_policy_attachment" "my_role_attachment" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2FullAccess"
 }
 
+# attach the SSM policy to the IAM role
 resource "aws_iam_role_policy_attachment" "ssm_core_attachment" {
   role       = aws_iam_role.this_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
