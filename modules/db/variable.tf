@@ -2,9 +2,9 @@ variable "project_name" {
 type = string 
 description = "The name of the project"
 }
-variable "subnet_id" { 
-type = string
-description = "The ID of the subnet"
+variable "subnet_ids" {
+  type = list(string)
+  description = "List of private subnet IDs in different AZs for RDS. Must cover at least 2 AZs."
 }
 variable "security_group_id" { 
 type = string
@@ -30,12 +30,7 @@ type = string
 description = "The password for the database"
 }
 
-# variable "vpc_id" {
-#   description = "The ID of the VPC"
-#   type = string
-# }
-
-variable "ec2_security_group_id" {
-  description = "The security group ID of the EC2 instance for SSH access."
+variable "vpc_id" {
+  description = "The ID of the VPC"
   type = string
 }

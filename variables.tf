@@ -54,3 +54,8 @@ variable "password" {
   type        = string
   description = "The password for the database"
 }
+
+variable "private_subnet_ids" {
+  type        = list(string)
+  description = "List of private subnet IDs for RDS (must be in different AZs)"
+}
