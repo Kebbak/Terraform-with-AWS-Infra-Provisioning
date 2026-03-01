@@ -86,3 +86,49 @@ sudo systemctl enable nginx
 sudo systemctl start nginx
 
 echo "Deployment complete!"
+
+# ------------------------------------------
+# Install and configure Datadog Agent
+# ------------------------------------------
+DD_API_KEY="7de2856f3a1b4fc867cd6767f02bad21"
+DD_AGENT_MAJOR_VERSION=7
+echo "Installing Datadog Agent..."
+sudo tee /etc/yum.repos.d/datadog.repo > /dev/null << EOF
+[datadog]
+name = Datadog, Inc.
+baseurl = https://yum.datadoghq.com/stable/7/x86_64/
+enabled=1
+gpgcheck=1
+gpgkey=https://keys.datadoghq.com/DATADOG_RPM_KEY.public
+EOF
+sudo yum makecache
+sudo yum install -y datadog-agent
+sudo sh -c "sed -i 's/api_key:.*/api_key: $DD_API_KEY/' /etc/datadog-agent/datadog.yaml"
+sudo systemctl enable datadog-agent
+sudo systemctl start datadog-agent
+echo "Datadog Agent installation complete!"
+
+# ------------------------------------------
+# Configure Datadog Agent for Nginx logs
+# ------------------------------------------
+echo "Enabling Datadog log collection..."
+sudo sh -c "sed -i 's/^# logs_enabled: false/logs_enabled: true/' /etc/datadog-agent/datadog.yaml"
+
+# Create Nginx log config for Datadog
+sudo mkdir -p /etc/datadog-agent/conf.d/nginx.d
+sudo tee /etc/datadog-agent/conf.d/nginx.d/conf.yaml > /dev/null << EOF
+logs:
+    - type: file
+        path: /var/log/nginx/access.log
+        service: nginx
+        source: nginx
+        sourcecategory: http_web_access
+    - type: file
+        path: /var/log/nginx/error.log
+        service: nginx
+        source: nginx
+        sourcecategory: http_web_access
+EOF
+
+sudo systemctl restart datadog-agent
+echo "Datadog Agent configured for Nginx logs!"
