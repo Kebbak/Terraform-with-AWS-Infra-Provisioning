@@ -1,3 +1,7 @@
+variable "target_group_arns" {
+	description = "List of target group ARNs for the ASG to register instances with."
+	type        = list(string)
+}
 variable "key_name" {
 	type        = string
 	description = "The name of the EC2 key pair to use."

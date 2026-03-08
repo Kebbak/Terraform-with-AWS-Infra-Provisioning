@@ -12,5 +12,6 @@ admin_username          = "app"
 password                = "ChangeMe123!"
 instance_type           = "t2.micro"
 project_name            = "devops-poc"
-private_subnet_ids = ["subnet-0b39f5438c02d919a", "subnet-003c385e29216d49a"]
-
+private_subnet_ids      = ["subnet-068863156331a0c20", "subnet-00d3b56043093d6d8"]
+public_subnet_ids       = ["subnet-03e05a32af4f51f4b", "subnet-0c35f1b685abce483"]
+lb_name                 = "devops-lb"

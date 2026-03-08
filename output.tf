@@ -4,9 +4,6 @@ output "vpc_id" {
 # output "alb_dns_name" {
 #   value = module.alb.alb_dns_name
 # }
-output "app_instance_id" {
-  value = module.ec2.instance_id
-}
 
 # Uncomment this only if module "db" is enabled in main.tf
 # output "db_instance_id" {

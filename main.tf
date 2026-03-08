@@ -1,4 +1,4 @@
-# modules
+ # modules
 module "vpc" {
   source       = "./modules/vpc"
   project_name = var.project_name
@@ -19,6 +19,16 @@ module "ec2" {
   security_group_id = module.sg.sg_id
   vpc_id            = module.vpc.vpc_id
   subnet_id         = module.vpc.public1_subnet_id
+  target_group_arns = [module.lb.app_tg_arn]
+}
+
+
+module "lb" {
+  source = "./modules/lb"
+  project_name = var.project_name
+  subnet_ids = module.vpc.public_subnet_ids
+  vpc_id = module.vpc.vpc_id
+  lb_name = var.lb_name
 }
 
 # module "db" {

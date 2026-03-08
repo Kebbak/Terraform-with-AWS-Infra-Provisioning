@@ -8,29 +8,15 @@ resource "aws_security_group" "this_sg" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] # just for testing purpose, restrict this in production
+    cidr_blocks = ["0.0.0.0/0"]
   }
   ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] # just for testing purpose, restrict this in production
+    security_groups = var.lb_sg_id != null ? [var.lb_sg_id] : []
+    # Only allow from the LB security group
   }
-
-  ingress {
-    from_port = 8080
-    to_port = 8080
-    protocol = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    from_port = 443
-    to_port = 443
-    protocol = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
   egress {
     from_port   = 0
     to_port     = 0

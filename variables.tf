@@ -59,3 +59,14 @@ variable "private_subnet_ids" {
   type        = list(string)
   description = "List of private subnet IDs for RDS (must be in different AZs)"
 }
+
+variable "public_subnet_ids" {
+  type        = list(string)
+  description = "List of public subnet IDs for EC2 and EKS (must be in different AZs)"
+}
+
+variable "lb_name" {
+  description = "Name of the load balancer"
+  type        = string
+}
+
