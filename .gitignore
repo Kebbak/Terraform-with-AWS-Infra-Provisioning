@@ -1,5 +1,6 @@
 # add terraform.tfvars to ignore
 terraform.tfvars
+terraform.tffvars
 *.tfstate
 *.tfstate.backup
 .terraform/

@@ -70,3 +70,17 @@ variable "lb_name" {
   type        = string
 }
 
+variable "lambda_function_name" {
+  description = "Name of the Lambda function."
+  type        = string
+}
+
+variable "lambda_zip_path" {
+  description = "Path to the Lambda deployment package (zip file)."
+  type        = string
+}
+
+variable "bucket_name" {
+  description = "Name of the S3 bucket for Lambda trigger."
+  type        = string
+}
