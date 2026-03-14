@@ -6,7 +6,7 @@ resource "aws_eks_cluster" "eks" {
   vpc_config {
     subnet_ids = var.subnet_ids
   }
-
+# explicit dependencies to ensure IAM roles and policies are created before the cluster
   depends_on = [
     aws_iam_role_policy_attachment.eks_cluster_AmazonEKSClusterPolicy,
     aws_iam_role_policy_attachment.eks_cluster_AmazonEKSServicePolicy,

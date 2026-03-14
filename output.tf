@@ -2,7 +2,7 @@ output "vpc_id" {
   value = module.vpc.vpc_id
 }
 # output "alb_dns_name" {
-#   value = module.alb.alb_dns_name
+#   value = module.lb.alb_dns_name
 # }
 
 # Uncomment this only if module "db" is enabled in main.tf

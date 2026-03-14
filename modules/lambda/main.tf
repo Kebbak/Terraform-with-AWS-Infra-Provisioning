@@ -1,3 +1,8 @@
+# Create SNS topic
+resource "aws_sns_topic" "lambda_topic" {
+  name = var.sns_topic_name
+}
+
 # IAM role for Lambda
 resource "aws_iam_role" "lambda_exec_role" {
   name = "lambda_exec_role"
@@ -27,7 +32,7 @@ resource "aws_iam_policy" "lambda_sns_policy" {
     Statement = [{
       Effect   = "Allow"
       Action   = ["sns:Publish"]
-      Resource = var.sns_topic_arn
+      Resource = aws_sns_topic.lambda_topic.arn
     }]
   })
 }
@@ -50,7 +55,7 @@ resource "aws_lambda_function" "s3_to_sns" {
 
   environment {
     variables = {
-      SNS_TOPIC_ARN = var.sns_topic_arn
+      SNS_TOPIC_ARN = aws_sns_topic.lambda_topic.arn
     }
   }
 
@@ -81,7 +86,7 @@ resource "aws_lambda_permission" "allow_s3" {
 
 # SNS email subscription
 resource "aws_sns_topic_subscription" "email_subscription" {
-  topic_arn = var.sns_topic_arn
+  topic_arn = aws_sns_topic.lambda_topic.arn
   protocol  = "email"
   endpoint  = var.sns_email
 }

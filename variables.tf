@@ -80,7 +80,11 @@ variable "lambda_zip_path" {
   type        = string
 }
 
-variable "bucket_name" {
+variable "s3_bucket_name" {
   description = "Name of the S3 bucket for Lambda trigger."
+  type        = string
+}
+variable "sns_email" {
+  description = "Email for SNS notifications."
   type        = string
 }

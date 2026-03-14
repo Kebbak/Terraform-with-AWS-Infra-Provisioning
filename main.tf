@@ -22,16 +22,16 @@ module "sg" {
 #   target_group_arns = [module.lb.app_tg_arn]
 # }
 
-# module "lambda" {
-#   source               = "./modules/lambda"
-#   subnet_id            = module.vpc.public1_subnet_id
-#   security_group_id    = module.sg.sg_id
-#   s3_bucket_name       = var.s3_bucket_name
-#   sns_topic_arn        = var.sns_topic_arn
-#   lambda_function_name = var.lambda_function_name
-#   lambda_zip_path      = var.lambda_zip_path
-#   sns_email            = var.sns_email
-# }
+module "lambda" {
+  source               = "./modules/lambda"
+  subnet_id            = module.vpc.public1_subnet_id
+  security_group_id    = module.sg.sg_id
+  s3_bucket_name       = var.s3_bucket_name
+  sns_topic_name       = "my-lambda-topic"
+  lambda_function_name = var.lambda_function_name
+  lambda_zip_path      = var.lambda_zip_path
+  sns_email            = var.sns_email
+}
 
 
 # module "lb" {

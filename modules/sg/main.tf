@@ -10,13 +10,16 @@ resource "aws_security_group" "this_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    security_groups = var.lb_sg_id != null ? [var.lb_sg_id] : []
-    # Only allow from the LB security group
-  }
+    dynamic "ingress" {
+      for_each = var.lb_sg_id != null ? [var.lb_sg_id] : []
+      content {
+        from_port       = 80
+        to_port         = 80
+        protocol        = "tcp"
+        security_groups = [ingress.value] # allow HTTP traffic from the load balancer security group
+        description     = "Allow HTTP from LB security group"
+      }
+    }
   egress {
     from_port   = 0
     to_port     = 0

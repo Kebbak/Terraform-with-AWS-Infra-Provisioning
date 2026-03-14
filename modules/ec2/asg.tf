@@ -3,7 +3,7 @@ resource "aws_launch_template" "web_lt" {
   image_id      = var.ec2_ami
   instance_type = var.instance_type
   key_name      = var.key_name
-  vpc_security_group_ids = [var.security_group_id]
+  vpc_security_group_ids = [var.security_group_id] # implicit dependency on security group module
   user_data = filebase64("${path.module}/user_data.sh")
   iam_instance_profile {
     name = aws_iam_instance_profile.my_instance_profile.name

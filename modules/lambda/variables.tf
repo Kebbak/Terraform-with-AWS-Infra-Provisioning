@@ -3,8 +3,8 @@ variable "s3_bucket_name" {
   type        = string
 }
 
-variable "sns_topic_arn" {
-  description = "ARN of the SNS topic for Lambda notifications."
+variable "sns_topic_name" {
+  description = "Name of the SNS topic to create."
   type        = string
 }
 
