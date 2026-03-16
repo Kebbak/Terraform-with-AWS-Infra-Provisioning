@@ -28,7 +28,7 @@ resource "aws_security_group" "db_sg" {
     from_port   = 3306
     to_port     = 3306
     protocol    = "tcp"
-    security_groups = [var.security_group_id]
+    security_groups = [var.security_group_id] # allow MySQL access from EC2 security group
     description = "Allow MySQL access from EC2 security group"
   }
 

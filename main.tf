@@ -11,36 +11,36 @@ module "sg" {
   vpc_id = module.vpc.vpc_id
 }
 
-# module "ec2" {
-#   source            = "./modules/ec2"
-#   ec2_ami           = var.ec2_ami
-#   instance_type     = var.instance_type
-#   key_name          = var.key_name
-#   security_group_id = module.sg.sg_id
-#   vpc_id            = module.vpc.vpc_id
-#   subnet_id         = module.vpc.public1_subnet_id
-#   target_group_arns = [module.lb.app_tg_arn]
-# }
-
-module "lambda" {
-  source               = "./modules/lambda"
-  subnet_id            = module.vpc.public1_subnet_id
-  security_group_id    = module.sg.sg_id
-  s3_bucket_name       = var.s3_bucket_name
-  sns_topic_name       = "my-lambda-topic"
-  lambda_function_name = var.lambda_function_name
-  lambda_zip_path      = var.lambda_zip_path
-  sns_email            = var.sns_email
+module "ec2" {
+  source            = "./modules/ec2"
+  ec2_ami           = var.ec2_ami
+  instance_type     = var.instance_type
+  key_name          = var.key_name
+  security_group_id = module.sg.sg_id
+  vpc_id            = module.vpc.vpc_id
+  subnet_id         = module.vpc.public1_subnet_id
+  target_group_arns = [module.lb.app_tg_arn]
 }
 
-
-# module "lb" {
-#   source = "./modules/lb"
-#   project_name = var.project_name
-#   subnet_ids = module.vpc.public_subnet_ids
-#   vpc_id = module.vpc.vpc_id
-#   lb_name = var.lb_name
+# module "lambda" {
+#   source               = "./modules/lambda"
+#   subnet_id            = module.vpc.public1_subnet_id
+#   security_group_id    = module.sg.sg_id
+#   s3_bucket_name       = var.s3_bucket_name
+#   sns_topic_name       = "my-lambda-topic"
+#   lambda_function_name = var.lambda_function_name
+#   lambda_zip_path      = var.lambda_zip_path
+#   sns_email            = var.sns_email
 # }
+
+
+module "lb" {
+  source = "./modules/lb"
+  project_name = var.project_name
+  subnet_ids = module.vpc.public_subnet_ids
+  vpc_id = module.vpc.vpc_id
+  lb_name = var.lb_name
+}
 
 # module "db" {
 #   source = "./modules/db"

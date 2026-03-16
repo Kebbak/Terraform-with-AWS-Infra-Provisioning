@@ -16,7 +16,7 @@ resource "aws_security_group" "this_sg" {
         from_port       = 80
         to_port         = 80
         protocol        = "tcp"
-        security_groups = [ingress.value] # allow HTTP traffic from the load balancer security group
+        security_groups = [aws_security_group.lb_sg.id] # allow HTTP traffic from the load balancer security group
         description     = "Allow HTTP from LB security group"
       }
     }
