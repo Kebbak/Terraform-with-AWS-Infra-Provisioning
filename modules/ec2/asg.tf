@@ -38,3 +38,12 @@ resource "aws_autoscaling_group" "web_asg" {
     create_before_destroy = true
   }
 }
+
+resource "null_resource" "example" {
+  provisioner "local-exec" {
+    command = "echo Auto Scaling Group created with ID: ${aws_autoscaling_group.web_asg.id}"
+  } 
+  provisioner "local-exec" {
+    command = "echo ${aws_autoscaling_group.web_asg.id} > output.txt"
+  }
+}
